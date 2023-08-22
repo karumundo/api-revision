@@ -4,7 +4,6 @@ app.use(express.json());
 const data = require('../data.json');
 const Client = require('../clientsServer');
 
-
     function createClient(req, res) {
         try {
             const {
