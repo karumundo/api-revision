@@ -1,22 +1,25 @@
 const express = require('express');
 const app = express();
 app.use(express.json());
+//const routes = express.Router();
 const data = require('./data.json');
+const {Client} = require('./clientsServer');
+const clientController = require('./clientsController')
+app.use(express.urlencoded({ extended: true }));
 
-app.get("/clients", function(req,res){
-    res.json(data)
-});
+
+app.get("/clients", clientController.clientsGet);
+
+app.post("/clients", clientController.createClient);
 
 app.get("/clients/:id", function(req, res){
     const {id} = req.params;
     const client = data.find(cli=>cli.id==id);
     res.json(client);
     if (client)return res.status(404).json();
-})
-app.post("/clients", function(req,res){
-    const{name, email} = req.body;
-    res.json({name, email})
 });
+
+
 app.put("/clients/:id", function(req,res){
     const {id} = req.params;
     const client = data.find(cli=>cli.id==id);
